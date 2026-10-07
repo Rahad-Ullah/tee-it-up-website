@@ -21,6 +21,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { fetchUrl, getMediaUrl } from "@/lib/fetchUrl";
 import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Club Details",
+  description: "Club Details",
+};
 
 interface CourseType {
   _id: string;
@@ -101,7 +107,7 @@ export default function ClubDetails({ params }: PageProps) {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [isDroneModalOpen, setIsDroneModalOpen] = useState(false);
   const [activeHoleIndex, setActiveHoleIndex] = useState(0);
-  
+
   const dateInputRef = useRef<HTMLInputElement>(null);
 
   const getTodayDateStr = () => {
@@ -385,10 +391,10 @@ export default function ClubDetails({ params }: PageProps) {
       {/* ── 2-COLUMN MAIN LAYOUT GRID ── */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-          
+
           {/* LEFT COLUMN: GOLF COURSE DETAILS */}
           <div className="lg:col-span-2 space-y-12">
-            
+
             {/* ── 2. COURSE OVERVIEW ── */}
             <section className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xs">
               <h2 className="text-2xl font-extrabold text-emerald-950 mb-4">
@@ -406,7 +412,7 @@ export default function ClubDetails({ params }: PageProps) {
                 Course Metrics & Specs
               </h2>
               <div className="h-1 w-12 bg-emerald-600 rounded-full mb-6" />
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                   <span className="text-slate-400 text-xs font-bold uppercase tracking-wider block mb-1">Total Yardage</span>
@@ -485,7 +491,7 @@ export default function ClubDetails({ params }: PageProps) {
                   Practice & Playing Facilities
                 </h2>
                 <div className="h-1 w-12 bg-emerald-600 rounded-full mb-6" />
-                
+
                 <div className="space-y-4">
                   {course.facilities.map((fac, idx) => (
                     <div key={idx} className="flex gap-3.5 items-start py-3 border-b last:border-0 border-slate-100">
@@ -515,7 +521,7 @@ export default function ClubDetails({ params }: PageProps) {
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-emerald-950 via-emerald-950/20 to-transparent" />
-                  
+
                   {/* Float tag */}
                   <div className="absolute top-6 left-6 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider">
                     Signature Hole
@@ -635,7 +641,7 @@ export default function ClubDetails({ params }: PageProps) {
           {/* ── 10. BOOKING SECTION (STICKY SIDEBAR) ── */}
           <div id="booking-section" className="lg:col-span-1">
             <div className="bg-white rounded-3xl p-6 border border-emerald-100 shadow-xl lg:sticky lg:top-8 scroll-mt-6">
-              
+
               {/* Headline */}
               <div className="mb-6">
                 <span className="text-emerald-600 font-bold text-xs uppercase tracking-widest block mb-1">
@@ -652,7 +658,7 @@ export default function ClubDetails({ params }: PageProps) {
                 <label className="text-slate-400 text-xs font-bold uppercase tracking-wider block mb-2.5">
                   1. Choose Date
                 </label>
-                <div 
+                <div
                   className="relative flex items-center w-full p-3.5 rounded-xl border border-slate-200 bg-white focus-within:border-emerald-600 focus-within:ring-1 focus-within:ring-emerald-600 cursor-pointer overflow-hidden hover:border-emerald-300 transition-colors"
                   onClick={() => {
                     try {
@@ -671,9 +677,9 @@ export default function ClubDetails({ params }: PageProps) {
                     onChange={(e) => setSelectedDate(e.target.value)}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
-                  
+
                   <Calendar className="w-5 h-5 text-slate-400 mr-2.5 shrink-0" />
-                  
+
                   {/* Visual Date text */}
                   <div className="flex-1 text-sm font-semibold text-slate-800 truncate">
                     {formatShortDate(selectedDate)}
@@ -689,7 +695,7 @@ export default function ClubDetails({ params }: PageProps) {
                 <label className="text-slate-400 text-xs font-bold uppercase tracking-wider block mb-2.5">
                   2. Select Tee Time Slot
                 </label>
-                
+
                 {loadingTeeTimes ? (
                   <div className="flex flex-col items-center justify-center py-10 text-slate-400">
                     <Loader2 className="w-6 h-6 animate-spin text-emerald-600 mb-1" />
@@ -714,8 +720,8 @@ export default function ClubDetails({ params }: PageProps) {
                             !isAvailable
                               ? "bg-slate-50 border-slate-100 text-slate-400 cursor-not-allowed opacity-60"
                               : isSelected
-                              ? "bg-emerald-50 border-emerald-600 text-emerald-950 ring-1 ring-emerald-600"
-                              : "bg-white border-slate-200 text-slate-700 hover:border-emerald-500"
+                                ? "bg-emerald-50 border-emerald-600 text-emerald-950 ring-1 ring-emerald-600"
+                                : "bg-white border-slate-200 text-slate-700 hover:border-emerald-500"
                           )}
                         >
                           <div className="flex items-center gap-3">
@@ -728,7 +734,7 @@ export default function ClubDetails({ params }: PageProps) {
                               </span>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center gap-3">
                             <div className="text-right">
                               <span className="block font-bold text-base">
@@ -825,7 +831,7 @@ export default function ClubDetails({ params }: PageProps) {
 
           {/* Modal Card with premium dark-green theme */}
           <div className="relative w-full max-w-4xl bg-[#031d0b] border border-emerald-800/35 rounded-3xl overflow-hidden shadow-2xl z-10 flex flex-col max-h-[90vh]">
-            
+
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4.5 border-b border-emerald-900/40 bg-[#021808] shrink-0">
               <div className="flex items-center gap-2.5">
@@ -850,7 +856,7 @@ export default function ClubDetails({ params }: PageProps) {
             </div>
 
             {/* Circular buttons list at the top */}
-            <div 
+            <div
               className="px-6 py-4 bg-[#021406] border-b border-emerald-900/40 shrink-0 overflow-x-auto scroll-smooth"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
@@ -902,7 +908,7 @@ export default function ClubDetails({ params }: PageProps) {
                 </div>
               )}
             </div>
-            
+
             {/* Small Footer / Info Bar */}
             {activeHole && (
               <div className="px-6 py-3 bg-[#021808] border-t border-emerald-900/40 text-center text-xs font-bold uppercase tracking-wider text-emerald-400 shrink-0">

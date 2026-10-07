@@ -13,6 +13,12 @@ import {
 import { toast } from "sonner";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import { fetchUrl } from "@/lib/fetchUrl";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Verify OTP",
+  description: "Verify OTP",
+};
 
 // Schema
 const contactUsFormSchema = z.object({

@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation";
 import Hero2 from "@/components/home/Hero2";
 import RecomandedClub from "@/components/home/RecomandedClub";
 import useLoginUser from "@/hooks/useUser";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile",
+  description: "Profile",
+};
 
 export default function ProfilePage() {
   const { isLogin, isLoading } = useLoginUser();
