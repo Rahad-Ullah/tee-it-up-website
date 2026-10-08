@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState, useEffect, useRef } from "react";
+import { use, useState, useEffect, useRef } from "react";
 import {
   Star,
   MapPin,
@@ -21,12 +21,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { fetchUrl, getMediaUrl } from "@/lib/fetchUrl";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Club Details",
-  description: "Club Details",
-};
 
 interface CourseType {
   _id: string;
