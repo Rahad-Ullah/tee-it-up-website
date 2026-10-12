@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import { AUTH_EXPIRED_EVENT, fetchUrl } from "@/lib/fetchUrl";
 import { setClientToken } from "@/lib/apiToken";
 import { USER_CACHE_COOKIE } from "@/lib/userCache";
+import { deleteCookie } from 'cookies-next/client';
 
 export interface AuthUser {
   name: string;
@@ -24,7 +25,7 @@ interface UserContextType {
   user: AuthUser | null;
   isLogin: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; message?: string; data?: any }>;
   signup: (data: RegisterPayload) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   refreshSession: () => Promise<void>;
@@ -119,11 +120,19 @@ export const UserProvider = ({
         body: { email, password },
       });
       const { accessToken, user: dbUser } = result.data;
-      const authUser = toAuthUser(dbUser);
-      setClientToken(accessToken);
-      setUser(authUser);
-      writeCachedUser(authUser);
-      return { success: true };
+
+      if (dbUser && ['SUPER_ADMIN', 'ADMIN', 'COURSE_MANAGER'].includes(dbUser.role)) {
+        deleteCookie("tiu_refresh_token_website")
+        window.location.replace(process.env.NEXT_PUBLIC_DASHBOARD_URL || "http://localhost:3001")
+      } else {
+        const authUser = toAuthUser(dbUser);
+        setClientToken(accessToken);
+        setUser(authUser);
+        writeCachedUser(authUser);
+
+        window.location.replace('/')
+      }
+      return result;
     } catch (err: any) {
       return { success: false, message: err.message || "Invalid email or password." };
     }
@@ -136,10 +145,18 @@ export const UserProvider = ({
         body: data,
       });
       const { accessToken, user: dbUser } = result.data;
+
+      if (dbUser && ['SUPER_ADMIN', 'ADMIN', 'COURSE_MANAGER'].includes(dbUser.role)) {
+        window.location.replace(process.env.NEXT_PUBLIC_DASHBOARD_URL || "http://localhost:3001")
+        return result;
+      }
+
       const authUser = toAuthUser(dbUser);
       setClientToken(accessToken);
       setUser(authUser);
       writeCachedUser(authUser);
+
+      window.location.replace('/')
       return { success: true };
     } catch (err: any) {
       return { success: false, message: err.message || "Failed to create account." };
@@ -162,9 +179,12 @@ export const UserProvider = ({
     } catch (err) {
       console.error("Logout request failed", err);
     } finally {
+      deleteCookie("accessToken")
+      deleteCookie("tiu_refresh_token_website")
       setClientToken("");
       setUser(null);
       writeCachedUser(null);
+      window.location.replace('/sign-in')
     }
   };
 

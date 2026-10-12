@@ -53,7 +53,6 @@ const SignIn = () => {
     }
 
     toast.success("Welcome back!");
-    router.replace('/');
   };
 
   return (
@@ -62,7 +61,7 @@ const SignIn = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-[500px] rounded-[20px] bg-white p-4 lg:p-12 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.06)] border border-gray-100"
+        className="w-full max-w-125 rounded-[20px] bg-white p-4 lg:p-12 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.06)] border border-gray-100"
       >
         <div className="mb-8">
           <h2 className="text-[40px] font-bold tracking-tight text-[#111827]">
